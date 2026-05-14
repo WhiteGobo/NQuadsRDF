@@ -4,6 +4,7 @@
 #include "NQuadsRDF.h"
 #include "term.h"
 #include <stdio.h>
+#include <string.h>
 
 int yyerror(char *s);
 int yylex(void);
@@ -86,7 +87,7 @@ int nquads_parse(const char* input, TripleHandler* triplehandler, void* user)
 	extern FILE* yyin;
 	FILE* myfile;
 	if (triplehandler == NULL) return 1;
-	myfile = fmemopen(input, strlen(input), "r");
+	myfile = fmemopen((void*) input, strlen(input), "r");
 	if (myfile == NULL) return 1;
 	my_triplehandler = triplehandler;
 	my_triplehandler_context = user;
