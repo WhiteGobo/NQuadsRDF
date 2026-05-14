@@ -34,13 +34,13 @@ typedef struct nquadsSerializer NQuadsSerializer;
  * Parse given nquads file and call triplehandler with any found triple.
  * Returns 0 on success.
  */
-int nquads_parse_file(const char* filename, NQUADS_TripleHandler* triplehandler, void* user);
+int nquads_parse_file(const char* filename, TripleHandler* triplehandler, void* user);
 
 /**
  * Parse given nquads string and call triplehandler with any found triple.
  * Returns 0 on success.
  */
-int nquads_parse(const char* input, NQUADS_TripleHandler* triplehandler, void* user);
+int nquads_parse(const char* input, TripleHandler* triplehandler, void* user);
 
 NQuadsSerializer* NQuadsRDF_SER_start();
 int64_t NQuads_SER_add(const char* subject, uint8_t subject_type,
