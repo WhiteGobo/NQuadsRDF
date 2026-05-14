@@ -12,13 +12,21 @@ typedef enum {
 } TERMTYPE;
 #endif
 
-typedef int8_t NQUADS_TripleHandler(
+#ifndef TRIPLEHANDLER_DEFINED
+#define TRIPLEHANDLER_DEFINED
+/*
+ * Use TERMTYPE for subject_type, object_type and graph_type.
+ * If graphid is NULL, the default graph is used.
+ */
+typedef int8_t TripleHandler(
                 const char* subject, uint8_t subject_type,
                 const char* predicate,
                 const char* object, const char* object_suffix,
                 uint8_t object_type,
                 const char* graphid, uint8_t graph_type,
                 void* user);
+
+#endif //TRIPLEHANDLER_DEFINED
 
 typedef struct nquadsSerializer NQuadsSerializer;
 
@@ -27,6 +35,12 @@ typedef struct nquadsSerializer NQuadsSerializer;
  * Returns 0 on success.
  */
 int nquads_parse_file(const char* filename, NQUADS_TripleHandler* triplehandler, void* user);
+
+/**
+ * Parse given nquads string and call triplehandler with any found triple.
+ * Returns 0 on success.
+ */
+int nquads_parse(const char* input, NQUADS_TripleHandler* triplehandler, void* user);
 
 NQuadsSerializer* NQuadsRDF_SER_start();
 int64_t NQuads_SER_add(const char* subject, uint8_t subject_type,

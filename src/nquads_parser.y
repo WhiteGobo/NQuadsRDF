@@ -80,6 +80,23 @@ int yyerror(char *s)
 	return 1;
 }
 
+int nquads_parse(const char* input, NQUADS_TripleHandler* triplehandler, void* user)
+{
+	int err;
+	extern FILE* yyin;
+	FILE* myfile;
+	if (triplehandler == NULL) return 1;
+	myfile = fmemopen(input, strlen(input), "r");
+	if (myfile == NULL) return 1;
+	my_triplehandler = triplehandler;
+	my_triplehandler_context = user;
+	yyin = myfile;
+	err = yyparse();
+	nquads_scanner_tidy_up();
+	fclose(myfile);
+	return err;
+}
+
 int nquads_parse_file(const char* filename, NQUADS_TripleHandler* triplehandler, void* user)
 {
 	int err;
