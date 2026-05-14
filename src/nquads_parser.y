@@ -8,7 +8,7 @@
 int yyerror(char *s);
 int yylex(void);
 
-static NQUADS_TripleHandler* my_triplehandler;
+static TripleHandler* my_triplehandler;
 static void* my_triplehandler_context;
 
 extern void nquads_scanner_tidy_up();
@@ -80,7 +80,7 @@ int yyerror(char *s)
 	return 1;
 }
 
-int nquads_parse(const char* input, NQUADS_TripleHandler* triplehandler, void* user)
+int nquads_parse(const char* input, TripleHandler* triplehandler, void* user)
 {
 	int err;
 	extern FILE* yyin;
@@ -97,7 +97,7 @@ int nquads_parse(const char* input, NQUADS_TripleHandler* triplehandler, void* u
 	return err;
 }
 
-int nquads_parse_file(const char* filename, NQUADS_TripleHandler* triplehandler, void* user)
+int nquads_parse_file(const char* filename, TripleHandler* triplehandler, void* user)
 {
 	int err;
 	FILE* myfile;
