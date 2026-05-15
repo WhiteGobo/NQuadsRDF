@@ -31,7 +31,7 @@ int64_t NQuads_SER_add(const char* subject, uint8_t subject_type,
                 const char* graph_id, uint8_t graph_type,
                 NQuadsSerializer* serializer)
 {
-	char *s, *p, *o;
+	char *s, *p, *o, *g;
 	char* ret;
 	if (subject == NULL || predicate == NULL || object == NULL) {
 		return 1;
@@ -43,8 +43,16 @@ int64_t NQuads_SER_add(const char* subject, uint8_t subject_type,
 	o = gen_term(object, object_suffix, object_type);
 	if (o == NULL) return 4;
 
-	ret = malloc(strlen(s) + strlen(p) + strlen(o) + 5);
-	sprintf(ret, "%s %s %s.\n", s, p, o);
+	if (graph_id == NULL){
+		ret = malloc(strlen(s) + strlen(p) + strlen(o) + 6);
+		sprintf(ret, "%s %s %s .\n", s, p, o);
+	} else {
+		g = gen_term(graph_id, NULL, graph_type);
+		if (g == NULL) return 5;
+		ret = malloc(strlen(s) + strlen(p) + strlen(o) + strlen(g) + 7);
+		sprintf(ret, "%s %s %s %s .\n", s, p, o, g);
+		free(g);
+	}
 	free(s);
 	free(p);
 	free(o);
@@ -74,8 +82,8 @@ static char* gen_term(const char* x, const char* suffix, TERMTYPE type){
                         break;
                 case TYPEDLITERAL:
                         if (suffix != NULL && 0 != strcmp(suffix, "")){
-				ret = malloc(strlen(x) + strlen(suffix) + 7);
-                                sprintf(ret, "\"%s\"^^%s", x, suffix);
+				ret = malloc(strlen(x) + strlen(suffix) + 9);
+                                sprintf(ret, "\"%s\"^^<%s>", x, suffix);
                         } else {
 				ret = malloc(strlen(x) + 5);
                         	sprintf(ret, "\"%s\"", x);
