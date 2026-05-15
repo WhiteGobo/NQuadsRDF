@@ -44,7 +44,7 @@ int64_t NQuads_SER_add(const char* subject, uint8_t subject_type,
 	if (o == NULL) return 4;
 
 	ret = malloc(strlen(s) + strlen(p) + strlen(o) + 5);
-	sprintf(ret, "%s %s %s.\n");
+	sprintf(ret, "%s %s %s.\n", s, p, o);
 	free(s);
 	free(p);
 	free(o);
