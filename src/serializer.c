@@ -138,10 +138,12 @@ static char* StringArray_finish(StringArray* arr){
 	q = stpcpy(ret, arr->first);
 	last = arr;
 	for (StringArray* x = arr->next; x != NULL; x = x->next){
+		free(last->first);
 		free(last);
 		q = stpcpy(q, x->first);
 		last = x;
 	}
+	free(last->first);
 	free(last);
 	return ret;
 }
