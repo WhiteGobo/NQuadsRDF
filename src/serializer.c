@@ -127,7 +127,9 @@ static char* StringArray_finish(StringArray* arr){
 	int size = 0;
 	char* ret, *q;
 	if (arr == NULL){
-		return NULL;
+		ret = malloc(1);
+		ret[0] = '\0';
+		return ret;
 	}
 	for (StringArray* x=arr; x!= NULL; x=x->next){
 		size += strlen(x->first);
